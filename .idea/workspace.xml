@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="956ec90b-829c-44c7-90f0-f44244083f6b" name="Changes" comment="actz csv">
-      <change afterPath="$PROJECT_DIR$/json/aprendices.json" afterDir="false" />
+    <list default="true" id="956ec90b-829c-44c7-90f0-f44244083f6b" name="Changes" comment="actz json">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/json/ex_json.py" beforeDir="false" afterPath="$PROJECT_DIR$/json/ex_json.py" afterDir="false" />
     </list>
@@ -162,7 +161,7 @@
       <option name="presentableId" value="Default" />
       <updated>1760447850082</updated>
       <workItem from="1760447851088" duration="8596000" />
-      <workItem from="1760527759636" duration="8553000" />
+      <workItem from="1760527759636" duration="11379000" />
     </task>
     <task id="LOCAL-00001" summary="aparición del txt">
       <option name="closed" value="true" />
@@ -196,7 +195,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760532210876</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="actz json">
+      <option name="closed" value="true" />
+      <created>1760539882578</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1760539882578</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,11 +213,12 @@
     <MESSAGE value="aparición del txt" />
     <MESSAGE value="realización ex csv y json" />
     <MESSAGE value="actz csv" />
-    <option name="LAST_COMMIT_MESSAGE" value="actz csv" />
+    <MESSAGE value="actz json" />
+    <option name="LAST_COMMIT_MESSAGE" value="actz json" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Persistencia$ex_csv.coverage" NAME="ex_csv Coverage Results" MODIFIED="1760529438645" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/csv" />
     <SUITE FILE_PATH="coverage/Persistencia$ex_json.coverage" NAME="ex_json Coverage Results" MODIFIED="1760538915045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/json" />
+    <SUITE FILE_PATH="coverage/Persistencia$ex_csv.coverage" NAME="ex_csv Coverage Results" MODIFIED="1760540155593" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/csv" />
     <SUITE FILE_PATH="coverage/Persistencia$datos.coverage" NAME="datos Coverage Results" MODIFIED="1760447929850" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

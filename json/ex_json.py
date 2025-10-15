@@ -1,165 +1,174 @@
 import json
+import os
 
-class DirectorioAprendices:
-    def __init__(self, archivo="aprendices.json"):
-        self.archivo = archivo
-        self.aprendices = []
-        self.cargar_datos()
+archivo_json = "aprendices.json"
+aprendices = []
 
-    def cargar_datos(self):
+def cargar_datos():
+    """Carga los aprendices desde el archivo JSON"""
+    global aprendices
 
+    if os.path.exists(archivo_json):  # ✅ Verifica si el archivo existe
         try:
-            with open(self.archivo, "r", encoding="utf-8") as file:
-                self.aprendices = json.load(file)
-            print(f"Se cargaron {len(self.aprendices)} aprendices.")
-        except FileNotFoundError:
-            print("No se encontró archivo. Se creará uno nuevo.")
-            self.aprendices = []
+            with open(archivo_json, "r", encoding="utf-8") as file:
+                aprendices = json.load(file)
+            print(f"Se cargaron {len(aprendices)} aprendices.")
         except json.JSONDecodeError:
             print("Error al leer el archivo. Iniciando con lista vacía.")
-            self.aprendices = []
+            aprendices = []
+    else:
+        print("No se encontró el archivo. Se creará uno nuevo.")
+        aprendices = []
 
-    def guardar_datos(self):
 
-        try:
-            with open(self.archivo, "w", encoding="utf-8") as file:
-                json.dump(self.aprendices, file, ensure_ascii=False, indent=2)
-            print("Datos guardados exitosamente.")
-        except Exception as e:
-            print(f"Error al guardar: {e}")
+def guardar_datos():
+    """Guarda los aprendices en el archivo JSON"""
+    try:
+        with open(archivo_json, "w", encoding="utf-8") as file:
+            json.dump(aprendices, file, ensure_ascii=False, indent=2)
+        print("Datos guardados exitosamente.")
+    except Exception as e:
+        print(f"Error al guardar: {e}")
 
-    def crear(self):
 
-        print("\n=== CREAR NUEVO(S) APRENDIZ(ES) ===")
+def generar_id():
+    """Genera un ID único para un nuevo aprendiz"""
+    if not aprendices:
+        return 1
+    return max(a['id'] for a in aprendices) + 1
 
-        try:
-            cantidad = int(input("¿Cuántos aprendices va a agregar? "))
 
-            if cantidad <= 0:
-                print("La cantidad debe ser mayor a 0")
-                return
+def buscar_por_id(id_buscar):
+    """Busca un aprendiz por ID"""
+    for aprendiz in aprendices:
+        if aprendiz['id'] == id_buscar:
+            return aprendiz
+    return None
 
-            for i in range(cantidad):
-                print(f"\n--- Aprendiz {i + 1} de {cantidad} ---")
 
-                aprendiz = {
-                    "id": self._generar_id(),
-                    "nombre": input("Nombre: ").strip(),
-                    "apellidos": input("Apellidos: ").strip(),
-                    "direccion": input("Dirección: ").strip(),
-                    "telefono": input("Teléfono: ").strip(),
-                    "ficha": input("Ficha: ").strip()
-                }
+def crear():
+    """Crea uno o varios aprendices"""
+    print("\n=== CREAR NUEVO(S) APRENDIZ(ES) ===")
 
-                self.aprendices.append(aprendiz)
-                print(f"Aprendiz creado con ID: {aprendiz['id']}")
+    try:
+        cantidad = int(input("¿Cuántos aprendices va a agregar? "))
 
-            self.guardar_datos()
-            print(f"\nSe crearon {cantidad} aprendices exitosamente.")
-
-        except ValueError:
-            print("Cantidad inválida. Debe ser un número.")
-
-    def listar(self):
-        """Lista todos los aprendices"""
-        print("\n=== LISTA DE APRENDICES ===")
-
-        if not self.aprendices:
-            print("No hay aprendices registrados.")
+        if cantidad <= 0:
+            print("La cantidad debe ser mayor a 0")
             return
 
-        for aprendiz in self.aprendices:
-            print(f"\n{'─'*60}")
-            print(f"ID: {aprendiz['id']}")
-            print(f"Nombre: {aprendiz['nombre']} {aprendiz['apellidos']}")
-            print(f"Dirección: {aprendiz['direccion']}")
-            print(f"Teléfono: {aprendiz['telefono']}")
-            print(f"Ficha: {aprendiz['ficha']}")
-        print(f"{'─'*60}")
+        for i in range(cantidad):
+            print(f"\n--- Aprendiz {i + 1} de {cantidad} ---")
 
-    def actualizar(self):
+            aprendiz = {
+                "id": generar_id(),
+                "nombre": input("Nombre: ").strip(),
+                "apellidos": input("Apellidos: ").strip(),
+                "direccion": input("Dirección: ").strip(),
+                "telefono": input("Teléfono: ").strip(),
+                "ficha": input("Ficha: ").strip()
+            }
 
-        print("\n=== ACTUALIZAR APRENDIZ ===")
+            aprendices.append(aprendiz)
+            print(f"Aprendiz creado con ID: {aprendiz['id']}")
 
-        if not self.aprendices:
-            print("No hay aprendices para actualizar.")
-            return
+        guardar_datos()
+        print(f"\nSe crearon {cantidad} aprendices exitosamente.")
 
-        self.listar()
+    except ValueError:
+        print("Cantidad inválida. Debe ser un número.")
 
-        try:
-            id_buscar = int(input("\nIngresa el ID del aprendiz a actualizar: "))
-            aprendiz = self._buscar_por_id(id_buscar)
 
-            if aprendiz:
-                print(f"\nActualizando: {aprendiz['nombre']} {aprendiz['apellidos']}")
-                print("(Presiona Enter para mantener el valor actual)\n")
+def listar():
+    """Lista todos los aprendices"""
+    print("\n=== LISTA DE APRENDICES ===")
 
-                campos = ["nombre", "apellidos", "direccion", "telefono", "ficha"]
+    if not aprendices:
+        print("No hay aprendices registrados.")
+        return
 
-                for campo in campos:
-                    valor_actual = aprendiz[campo]
-                    nuevo_valor = input(f"{campo.capitalize()} [{valor_actual}]: ").strip()
+    for aprendiz in aprendices:
+        print(f"\n{'─'*60}")
+        print(f"ID: {aprendiz['id']}")
+        print(f"Nombre: {aprendiz['nombre']} {aprendiz['apellidos']}")
+        print(f"Dirección: {aprendiz['direccion']}")
+        print(f"Teléfono: {aprendiz['telefono']}")
+        print(f"Ficha: {aprendiz['ficha']}")
+    print(f"{'─'*60}")
+    print(f"\nTotal: {len(aprendices)} aprendices")
 
-                    if nuevo_valor:
-                        aprendiz[campo] = nuevo_valor
 
-                self.guardar_datos()
-                print("Aprendiz actualizado exitosamente.")
+def actualizar():
+    """Actualiza un aprendiz existente"""
+    print("\n=== ACTUALIZAR APRENDIZ ===")
+
+    if not aprendices:
+        print("No hay aprendices para actualizar.")
+        return
+
+    listar()
+
+    try:
+        id_buscar = int(input("\nIngresa el ID del aprendiz a actualizar: "))
+        aprendiz = buscar_por_id(id_buscar)
+
+        if aprendiz:
+            print(f"\nActualizando: {aprendiz['nombre']} {aprendiz['apellidos']}")
+            print("(Presiona Enter para mantener el valor actual)\n")
+
+            campos = ["nombre", "apellidos", "direccion", "telefono", "ficha"]
+
+            for campo in campos:
+                valor_actual = aprendiz[campo]
+                nuevo_valor = input(f"{campo.capitalize()} [{valor_actual}]: ").strip()
+
+                if nuevo_valor:
+                    aprendiz[campo] = nuevo_valor
+
+            guardar_datos()
+            print("Aprendiz actualizado exitosamente.")
+        else:
+            print("No se encontró un aprendiz con ese ID.")
+    except ValueError:
+        print("ID inválido.")
+
+
+def eliminar():
+    """Elimina un aprendiz"""
+    print("\n=== ELIMINAR APRENDIZ ===")
+
+    if not aprendices:
+        print("No hay aprendices para eliminar.")
+        return
+
+    listar()
+
+    try:
+        id_buscar = int(input("\nIngresa el ID del aprendiz a eliminar: "))
+        aprendiz = buscar_por_id(id_buscar)
+
+        if aprendiz:
+            confirmar = input(f"¿Eliminar a {aprendiz['nombre']} {aprendiz['apellidos']}? (s/n): ")
+
+            if confirmar.lower() == 's':
+                aprendices.remove(aprendiz)
+                guardar_datos()
+                print("Aprendiz eliminado exitosamente.")
             else:
-                print("No se encontró un aprendiz con ese ID.")
-        except ValueError:
-            print("ID inválido.")
-
-    def eliminar(self):
-
-        print("\n=== ELIMINAR APRENDIZ ===")
-
-        if not self.aprendices:
-            print("No hay aprendices para eliminar.")
-            return
-
-        self.listar()
-
-        try:
-            id_buscar = int(input("\nIngresa el ID del aprendiz a eliminar: "))
-            aprendiz = self._buscar_por_id(id_buscar)
-
-            if aprendiz:
-                confirmar = input(f"¿Eliminar a {aprendiz['nombre']} {aprendiz['apellidos']}? (s/n): ")
-
-                if confirmar.lower() == 's':
-                    self.aprendices.remove(aprendiz)
-                    self.guardar_datos()
-                    print("Aprendiz eliminado .")
-                else:
-                    print("Operación cancelada.")
-            else:
-                print("No se encontró un aprendiz con ese ID.")
-        except ValueError:
-            print("ID inválido.")
-
-    def _generar_id(self):
-        """Genera un ID único para un nuevo aprendiz"""
-        if not self.aprendices:
-            return 1
-        return max(a['id'] for a in self.aprendices) + 1
-
-    def _buscar_por_id(self, id_buscar):
-        """Busca un aprendiz por ID"""
-        for aprendiz in self.aprendices:
-            if aprendiz['id'] == id_buscar:
-                return aprendiz
-        return None
+                print("Operación cancelada.")
+        else:
+            print("No se encontró un aprendiz con ese ID.")
+    except ValueError:
+        print("ID inválido.")
 
 
 def menu_principal():
-
-    directorio = DirectorioAprendices()
+    """Menú principal del sistema"""
+    cargar_datos()
 
     while True:
         print("\n" + "="*60)
-        print("DIRECTORIO DE APRENDICES")
+        print("          DIRECTORIO DE APRENDICES")
         print("="*60)
         print("1. Crear aprendiz")
         print("2. Listar aprendices")
@@ -171,13 +180,13 @@ def menu_principal():
         opcion = input("Selecciona una opción (1-5): ").strip()
 
         if opcion == "1":
-            directorio.crear()
+            crear()
         elif opcion == "2":
-            directorio.listar()
+            listar()
         elif opcion == "3":
-            directorio.actualizar()
+            actualizar()
         elif opcion == "4":
-            directorio.eliminar()
+            eliminar()
         elif opcion == "5":
             print("\n¡Hasta luego!")
             break
